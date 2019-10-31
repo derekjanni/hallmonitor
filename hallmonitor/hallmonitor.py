@@ -1,13 +1,13 @@
-import utils
+#!/usr/bin/env python3
+
 import yaml
 import shutil
 import argparse
 import requests
 import functools
-import utils
 import traceback
 import logging
-import addons
+import hallmonitor.addons as addons
 from colorama import Fore, Back, Style
 
 logging.basicConfig(level=logging.DEBUG)
@@ -96,7 +96,7 @@ def main():
     # Load optional arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("--path", "-p", default='', help="Path to config file")
-    parser.add_argument("--file", "-f", help="Name of config file")
+    parser.add_argument("--file", "-f", help="Name of config file", required=True)
     args = parser.parse_args()
     filename = args.file
     path = args.path
