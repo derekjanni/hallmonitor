@@ -1,0 +1,14 @@
+addons:
+  - name: auth0
+    action: auth_header
+    url: https://my-domain.com/oauth/token
+    audience: https://my-audience/
+    grant_type: client_credentials
+    client_id: ${AUTH0_CLIENT_ID} # use this notation to indicate an envar
+    client_secret: ${AUTH0_CLIENT_SECRET} # use this notation to indicate an envar
+
+test_cases:
+- description: Test Helloworld
+  base: http://localhost:5000
+  route: /
+  json: false

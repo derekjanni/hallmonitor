@@ -1,12 +1,5 @@
-addons:
-  auth0:
-      url: <YOUR URL HERE>
-      audience: <YOUR AUDIENCE HERE>
-      grant_type: client_credentials
-      client_id: <YOUR ID HERE>
-      client_secret: <YOUR SECRET HERE>
 test_cases:
 - description: Test Helloworld
   base: http://localhost:5000
-  url: /
+  route: /
   json: false
