@@ -7,6 +7,8 @@ import requests
 import functools
 import traceback
 import logging
+import schedule
+import hallmonitor.cronify as cronify
 import hallmonitor.addons as addons
 from colorama import Fore, Back, Style
 
@@ -97,9 +99,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--path", "-p", default='', help="Path to config file")
     parser.add_argument("--file", "-f", help="Name of config file", required=True)
+    parser.add_argument("--cron", "-c", help="Cron expression", required=False)
     args = parser.parse_args()
     filename = args.file
     path = args.path
+    cron = args.path
+
 
     with open(f'{path}{filename}') as stream:
         config = yaml.safe_load(stream)
@@ -111,6 +116,7 @@ def main():
     test_cases = config.get('test_cases', [])
     for test in test_cases:
         test_case(**test)
+
 
 if __name__ == '__main__':
     main()

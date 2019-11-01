@@ -1,0 +1,5 @@
+test_cases:
+- description: Test Helloworld
+  base: http://localhost:5000
+  route: /
+  json: false

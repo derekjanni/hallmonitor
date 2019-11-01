@@ -10,6 +10,7 @@ setup(
     install_requires=[
         'pyyaml',
         'requests',
-        'colorama>0.4'
+        'colorama>0.4',
+        'schedule'
     ]
 )
