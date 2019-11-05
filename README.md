@@ -24,6 +24,7 @@ addons:
     client_secret: ${CLIENT_SECRET}
 test_cases:
   - description: Do things!
+    name: thing_test
     base: http://dev-server-url:5000/things
     route: /thing
     json: false

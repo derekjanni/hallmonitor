@@ -1,5 +1,6 @@
 test_cases:
-- description: Test Helloworld
-  base: http://localhost:5000
+- description: Health Check
+  name: health_check
+  base: http://host.docker.internal:5000
   route: /
   json: false
