@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='hallmonitor',
-    version='0.2',
+    version='0.3',
     description='A templating tool that creates unit tests from an arbitrary file.',
     python_requires='~=3.6',
     packages=find_packages(),
@@ -10,7 +10,7 @@ setup(
     install_requires=[
         'pyyaml',
         'requests',
-        'colorama>0.4',
+        'apscheduler',
         'schedule'
     ]
 )

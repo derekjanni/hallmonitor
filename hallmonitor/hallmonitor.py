@@ -7,8 +7,7 @@ import requests
 import functools
 import traceback
 import logging
-import schedule
-import hallmonitor.cronify as cronify
+from apscheduler.schedulers.blocking import BlockingScheduler
 import hallmonitor.addons as addons
 from colorama import Fore, Back, Style
 
@@ -103,8 +102,7 @@ def main():
     args = parser.parse_args()
     filename = args.file
     path = args.path
-    cron = args.path
-
+    cron = args.cron
 
     with open(f'{path}{filename}') as stream:
         config = yaml.safe_load(stream)
@@ -117,6 +115,12 @@ def main():
     for test in test_cases:
         test_case(**test)
 
+    if cron:
+        scheduler = BlockingScheduler()
+        for test in test_cases:
+            job = scheduler.add_job(test_case, 'interval', kwargs=test, minutes=0.1)
+
+        scheduler.start()
 
 if __name__ == '__main__':
     main()
