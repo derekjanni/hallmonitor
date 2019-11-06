@@ -103,7 +103,7 @@ def main(config=None, cli=True, **kwargs):
         parser.add_argument("--path", "-p", default='', help="Path to config file")
         parser.add_argument("--file", "-f", help="Name of config file", required=True)
         parser.add_argument("--monitor", "-m", help="Turns on monitoring", action='store_true')
-        parser.add_argument("--schedule", "-s", help="Minute schedule to run this on", type=int, default=0.1)
+        parser.add_argument("--schedule", "-s", help="Minute schedule to run this on", type=float, default=0.1)
         args = parser.parse_args()
         filename = args.file
         path = args.path
