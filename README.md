@@ -35,8 +35,9 @@ test_cases:
         param3: hello!
 ```
 
-
 ## Future releases
 - Deployable hallmonitor that consumes config and constantly tests endpoints for breakage
 - Slack integration
 - Dashboard for code quality metrics
+
+[hallmonitor](https://i.pinimg.com/originals/99/dd/44/99dd445c0549fbcf7783737ff1edee10.jpg)
