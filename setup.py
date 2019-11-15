@@ -10,6 +10,7 @@ setup(
     install_requires=[
         'pyyaml',
         'requests',
+        'colorama',
         'apscheduler',
         'schedule'
     ]
