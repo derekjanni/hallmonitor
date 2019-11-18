@@ -1,6 +1,6 @@
 test_cases:
 - description: Health Check
   name: health_check
-  base: http://host.docker.internal:5000
-  route: /
+  base: http://127.0.0.1:5005
+  route: /esap-billing/health
   json: false

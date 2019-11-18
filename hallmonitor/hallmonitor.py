@@ -102,10 +102,12 @@ def main(config=None, cli=True, **kwargs):
         parser = argparse.ArgumentParser()
         parser.add_argument("--path", "-p", default='', help="Path to config file")
         parser.add_argument("--file", "-f", help="Name of config file", required=True)
+        parser.add_argument("--name", "-n", help="Name of test to run in --file", default=None)
         parser.add_argument("--monitor", "-m", help="Turns on monitoring", action='store_true')
         parser.add_argument("--schedule", "-s", help="Minute schedule to run this on", type=float, default=0.1)
         args = parser.parse_args()
         filename = args.file
+        test_name = args.name
         path = args.path
         monitor = args.monitor
         schedule = args.schedule
@@ -124,8 +126,13 @@ def main(config=None, cli=True, **kwargs):
         resolve_addon(addon)
 
     test_cases = config.get('test_cases', [])
-    for test in test_cases:
-        test_case(**test)
+    if test_name:
+        for test in test_cases:
+            if test_name == test.get('name', 'No Name'):
+                test_case(**test)
+    else:
+        for test in test_cases:
+            test_case(**test)
 
     if monitor:
         for test in test_cases:
