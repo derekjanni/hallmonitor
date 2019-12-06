@@ -9,7 +9,8 @@ import traceback
 import logging
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
-import hallmonitor.addons as addons
+import services.endpoint as endpoint_service
+import addons
 from colorama import Fore, Back, Style
 
 logging.basicConfig(level=logging.DEBUG)
@@ -80,6 +81,9 @@ def handle_test():
                     print(f'{Fore.RED}{res.json()}')
 
                 print(Style.RESET_ALL)
+                if kwargs.get('store_results'):
+                    endpoint_service.store_results(kwargs, res)
+
             except:
                 print(f'{Fore.RED}')
                 traceback.print_exc()
@@ -91,7 +95,18 @@ def handle_test():
 
 @handle_test()
 def test_case(**kwargs):
-    return requests.get(f'{kwargs["base"]}{kwargs["route"]}', params=kwargs.get('params'), headers=AUTH_HEADER)
+    method = kwargs.get('method')
+    method_mapping = {
+        'GET': functools.partial(requests.get),
+        'PUT': functools.partial(requests.put),
+        'POST': functools.partial(requests.post),
+        'DELETE': functools.partial(requests.delete),
+    }
+    request_function = method_mapping.get(method)
+    if not request_function:
+        raise Exception(f'{method} is not a valid HTTP request method! Try something from {method_mapping}')
+
+    return request_function(f'{kwargs["base"]}{kwargs["route"]}', params=kwargs.get('params'), headers=AUTH_HEADER)
 
 def main(config=None, cli=True, **kwargs):
     print(f'config {config}')
@@ -111,11 +126,12 @@ def main(config=None, cli=True, **kwargs):
         path = args.path
         monitor = args.monitor
         schedule = args.schedule
-        scheduler = BlockingScheduler()
+        scheduler = BackgroundScheduler()
     else:
         monitor = kwargs.get('monitor')
         schedule = kwargs.get('schedule', 0.1)
         scheduler = BackgroundScheduler()
+        test_name = None
 
     if not config:
         with open(f'{path}{filename}') as stream:
@@ -136,6 +152,7 @@ def main(config=None, cli=True, **kwargs):
 
     if monitor:
         for test in test_cases:
+            test['store_results'] = True
             job = scheduler.add_job(test_case, 'interval', kwargs=test, minutes=schedule)
 
         scheduler.start()

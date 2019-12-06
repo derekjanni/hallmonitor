@@ -26,8 +26,14 @@ test_cases:
   - description: Do things!
     name: thing_test
     base: http://dev-server-url:5000/things
+    expect:
+      status_code: 200
+      message: It works!
+      json: "{'stringified_json': 'object'}"
+      on_fail: "continue" | "quit" # these are your only options
     route: /thing
     json: false
+    method: GET
     outfile: example.csv
     params:
         param1: 1

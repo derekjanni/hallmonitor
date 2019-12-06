@@ -2,6 +2,8 @@ install:
 		rm -r dist && python setup.py sdist bdist_wheel install
 update:
 		twine upload dist/*
+start:
+		PYTHONPATH=.:src python hallmonitor/api.py
 up:
 		docker-compose build && docker-compose up
 down:

@@ -1,20 +1,19 @@
+from flask_restful import Resource, abort
+from flask import request
 import services.endpoint as endpoint_service
 
 class EndpointResource(Resource):
     def __init__(self, **kwargs):
-        self._id=hash(str(kwargs))
-        self.route=route
-        name = kwargs.get('name')
+        name = f'/{kwargs.get("name")}'
+        self._id = sum([ord(x) for x in name])
 
-        if name:
-            self.__name__=name
-            self.name=name
-        else:
-            self.__name__=id
-            self.name=id
+        self.__name__=name
+        self.name=name
 
     def get(self):
-        return endpoint_service.get_endpoint_stats(self._id)
+        name = request.path
+        idx = sum([ord(x) for x in name])
+        return endpoint_service.get_endpoint_stats(idx)
 
 class GlobalAggregator(Resource):
     def get(self):
