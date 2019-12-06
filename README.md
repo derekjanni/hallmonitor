@@ -3,7 +3,7 @@
 `hallmonitor` is a configuration-based tool for integration testing your APIs! No more manual clicking or pasting Auth tokens into Postman! Instead, just fill out your configuration files and go.
 
 ## How to..
-- Install with `python setup.py install`
+- Install with `pip install hallmonitor`
 - Fire up `examples/helloworld/api.py`
 - `hallmonitor -f examples/helloworld/config.yaml`
 - Observe!
@@ -40,6 +40,13 @@ test_cases:
         param2: 23
         param3: hello!
 ```
+
+# Data storage and collection
+
+If you're deploying this on docker, it will run a local sqlite install to collect stats while
+running in API mode. In the future, this may be updated to support longer-term stats storage, but the current
+goal is to build a simple frontend on this and just be able to show stats about a given service. 
+
 
 ## Future releases
 - Deployable hallmonitor that consumes config and constantly tests endpoints for breakage

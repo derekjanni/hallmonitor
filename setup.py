@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='hallmonitor',
-    version='0.4.1',
+    version='0.5.0',
     description='An integration testing library that runs tests from yaml configuration.',
     python_requires='~=3.6',
     packages=find_packages(),
