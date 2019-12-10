@@ -9,8 +9,8 @@ import traceback
 import logging
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
-import services.endpoint as endpoint_service
-import addons
+import hallmonitor.services.endpoint as endpoint_service
+import hallmonitor.addons as addons
 from colorama import Fore, Back, Style
 
 logging.basicConfig(level=logging.DEBUG)

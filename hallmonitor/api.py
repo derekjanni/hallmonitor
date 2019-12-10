@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_restful import Resource, Api
 from flask import Flask
-from resources.health import HealthResource
-from resources.endpoint import EndpointResource, GlobalAggregator
+from hallmonitor.resources.health import HealthResource
+from hallmonitor.resources.endpoint import EndpointResource, GlobalAggregator
 import yaml
 import hallmonitor as hallmonitor
 import argparse

@@ -3,3 +3,7 @@ test_cases:
   base: http://localhost:5000
   route: /
   json: false
+- description: Test Helloworld
+  base: http://localhost:5000
+  route: /sometimes/works
+  json: false
