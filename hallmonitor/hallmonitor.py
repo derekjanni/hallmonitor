@@ -7,6 +7,7 @@ import requests
 import functools
 import traceback
 import logging
+from pprint import pprint
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
 import hallmonitor.services.endpoint as endpoint_service
@@ -72,13 +73,13 @@ def handle_test():
                     print(f'{Fore.BLUE}{res}')
 
                     if kwargs.get('json'):
-                        print(f'{Fore.BLUE}{res.json()}')
+                        pprint(f'{Fore.BLUE}{res.json()}')
 
                     if kwargs.get('outfile'):
                         save_response(kwargs.get('outfile'), res.content)
                 else:
                     print(f'{Fore.RED}{res}')
-                    print(f'{Fore.RED}{res.json()}')
+                    pprint(f'{Fore.RED}{res.json()}')
 
                 print(Style.RESET_ALL)
                 if kwargs.get('store_results'):
