@@ -107,7 +107,7 @@ def test_case(**kwargs):
     if not request_function:
         raise Exception(f'{method} is not a valid HTTP request method! Try something from {method_mapping}')
 
-    return request_function(f'{kwargs["base"]}{kwargs["route"]}', params=kwargs.get('params'), headers=AUTH_HEADER)
+    return request_function(f'{kwargs["base"]}{kwargs["route"]}', params=kwargs.get('params'), headers=AUTH_HEADER, data=kwargs.get('data'))
 
 def main(config=None, cli=True, **kwargs):
     print(f'config {config}')
