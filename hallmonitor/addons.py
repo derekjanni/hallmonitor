@@ -38,7 +38,7 @@ def keycloak_handler(keycloak_config):
     keycloak_openid = KeycloakOpenID(
         server_url=keycloak_config['url'],
         client_id=get_envar(keycloak_config['client_id'])
-        realm_name=keycloak_config['realm']),
+        realm_name=keycloak_config['realm'],
         client_secret_key=get_envar(keycloak_config['client_secret'])
     )
 
