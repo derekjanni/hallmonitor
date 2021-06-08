@@ -3,3 +3,4 @@ requests==2.22.0
 colorama==0.4.1
 apscheduler
 flask-restful
+python-keycloak==0.24.0
