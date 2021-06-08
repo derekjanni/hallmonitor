@@ -1,5 +1,6 @@
 import os
 import requests
+from keycloak import KeycloakOpenID
 
 def auth0_handler(auth0_config):
     token = get_auth0_token(
@@ -37,12 +38,12 @@ def keycloak_handler(keycloak_config):
     # Configure client
     keycloak_openid = KeycloakOpenID(
         server_url=keycloak_config['url'],
-        client_id=get_envar(keycloak_config['client_id'])
+        client_id=get_envar(keycloak_config['client_id']),
         realm_name=keycloak_config['realm'],
         client_secret_key=get_envar(keycloak_config['client_secret'])
     )
 
     # Get Token
-    token = keycloak_openid.token(keycloak_config['user'], keycloak_config['password'])
+    token = keycloak_openid.token(get_envar(keycloak_config['user']), get_envar(keycloak_config['password']))
     token = token['access_token']
     return {'Authorization': f'Bearer {token}'}

@@ -1,5 +1,5 @@
 install:
-		rm -r dist && python setup.py sdist bdist_wheel install
+		python setup.py sdist install
 update:
 		twine upload dist/*
 start:
