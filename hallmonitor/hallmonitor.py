@@ -31,7 +31,8 @@ ACTION_MAPPING = {
 
 # Define custom addons here
 ADDON_MAPPING = {
-    'auth0': addons.auth0_handler
+    'auth0': addons.auth0_handler,
+    'keycloak': addons.keycloak_handler
 }
 
 def resolve_addon(addon):
