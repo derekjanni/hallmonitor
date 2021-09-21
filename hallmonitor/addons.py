@@ -16,10 +16,7 @@ def get_envar(name):
     """
     Given an envar named ${ENVAR}, look for ENVAR in the local environment and return
     """
-    envar = os.environ.get(name.strip('${}'))
-    if not envar:
-        raise Error(f'No such environment variable to load! {name}')
-    return envar
+    return os.environ.get(name.strip('${}'))
 
 def get_auth0_token(url=None, audience=None, grant_type=None, client_id=None, client_secret=None):
     """
@@ -36,13 +33,20 @@ def keycloak_handler(keycloak_config):
     Keycloak token is required for many API calls
     """
     # Configure client
-    keycloak_openid = KeycloakOpenID(
-        server_url=keycloak_config['url'],
-        client_id=get_envar(keycloak_config['client_id']),
-        realm_name=keycloak_config['realm'],
-        client_secret_key=get_envar(keycloak_config['client_secret'])
-    )
-
+    if keycloak_config.get('client_secret'):
+        keycloak_openid = KeycloakOpenID(
+            server_url=keycloak_config['url'],
+            client_id=get_envar(keycloak_config['client_id']),
+            realm_name=keycloak_config['realm'],
+            client_secret_key=get_envar(keycloak_config['client_secret'])
+        )
+    else:
+        keycloak_openid = KeycloakOpenID(
+            server_url=keycloak_config['url'],
+            client_id=get_envar(keycloak_config['client_id']),
+            realm_name=keycloak_config['realm'],
+            client_secret_key=get_envar(keycloak_config['client_secret'])
+        )
     # Get Token
     token = keycloak_openid.token(get_envar(keycloak_config['user']), get_envar(keycloak_config['password']))
     token = token['access_token']

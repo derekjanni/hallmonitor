@@ -1,0 +1,13 @@
+addons:
+  - name: keycloak
+    action: auth_header
+    url: https://auth.edf-re.io/auth/
+    realm: edfre
+    client_id: ${KEYCLOAK_CLIENT_ID} # use this notation to indicate an envar
+    user: ${KEYCLOAK_USER} # use this notation to indicate an envar
+    password: ${KEYCLOAK_PASSWORD} # use this notation to indicate an envar
+test_cases:
+- description: Test Helloworld
+  base: http://localhost:5000
+  route: /
+  json: false
