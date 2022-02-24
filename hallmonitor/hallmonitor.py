@@ -10,8 +10,8 @@ import logging
 from pprint import pprint
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
-import hallmonitor.services.endpoint as endpoint_service
-import hallmonitor.addons as addons
+import services.endpoint as endpoint_service
+import addons as addons
 from colorama import Fore, Back, Style
 
 logging.basicConfig(level=logging.DEBUG)
@@ -80,10 +80,10 @@ def handle_test():
                         save_response(kwargs.get('outfile'), res.content)
                 else:
                     print(f'{Fore.RED}{res}')
-                    pprint(f'{Fore.RED}{res.json()}')
 
                 print(Style.RESET_ALL)
                 if kwargs.get('store_results'):
+                    print('Storing results...')
                     endpoint_service.store_results(kwargs, res)
 
             except:

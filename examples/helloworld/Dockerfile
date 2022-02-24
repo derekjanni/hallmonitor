@@ -11,11 +11,11 @@ RUN pip install -r requirements.txt
 COPY . .
 
 RUN adduser --disabled-password --gecos '' default
-RUN chmod +x boot.sh
+RUN chmod +x ./examples/helloworld/api.py
+
 USER default
 
 FROM base as run
-EXPOSE 5001
-RUN /usr/bin/sqlite3 /db/test.db
-ENV PYTHONPATH=.:hallmonitor
-CMD ["./boot.sh"]
+EXPOSE 5000
+COPY ./examples/helloworld/api.py .
+CMD [ "python" "./api.py" ]

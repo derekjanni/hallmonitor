@@ -11,8 +11,8 @@ class EndpointResource(Resource):
         self.name=name
 
     def get(self):
-        name = request.path
-        idx = sum([ord(x) for x in name])
+        name = self.name
+        idx = self._id
         return endpoint_service.get_endpoint_stats(idx)
 
 class GlobalAggregator(Resource):

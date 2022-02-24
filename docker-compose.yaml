@@ -5,7 +5,16 @@ services:
       context: .
       dockerfile: Dockerfile
       target: run
-    env_file:
-    - .env
+    environment:
+      HALLMONITOR_CONFIG: ./examples/helloworld/config.yaml
     ports:
         - "5001:5001"
+  test_api:
+    build:
+      context: .
+      dockerfile: ./examples/helloworld/Dockerfile
+      target: run
+    environment:
+      HALLMONITOR_CONFIG: ./examples/helloworld/config.yaml
+    ports:
+        - "5000:5000"

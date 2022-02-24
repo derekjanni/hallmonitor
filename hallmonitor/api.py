@@ -1,46 +1,52 @@
 from flask import Flask
 from flask_restful import Resource, Api
 from flask import Flask
-from hallmonitor.resources.health import HealthResource
-from hallmonitor.resources.endpoint import EndpointResource, GlobalAggregator
+from resources.health import HealthResource
+from resources.endpoint import EndpointResource, GlobalAggregator
 import yaml
 import hallmonitor as hallmonitor
 import argparse
-
+import os
 
 # API
-app = Flask(__name__)
-app.config['PROPAGATE_EXCEPTIONS'] = True
-api = Api(app, catch_all_404s=True)
-api.add_resource(HealthResource, '/health')
+def create_app():
+    app = Flask(__name__)
+    app.config['PROPAGATE_EXCEPTIONS'] = True
+    api = Api(app, catch_all_404s=True)
+    api.add_resource(HealthResource, '/health')
 
 
-# Load config
-parser = argparse.ArgumentParser()
-parser.add_argument("--file", "-f", help="File path of config file", required=True)
-args = parser.parse_args()
-filename = args.file
+    # Load config
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--file", "-f", help="File path of config file", required=False)
+    args = parser.parse_args()
+    filename = args.file
 
-with open(filename) as stream:
-    config = yaml.safe_load(stream)
+    if not filename:
+        filename = os.environ.get('HALLMONITOR_CONFIG')
 
-test_cases = config.get('test_cases')
+    with open(filename) as stream:
+        config = yaml.safe_load(stream)
 
-if test_cases:
-    # Create endpoints that mirror the test_cases in config.yaml
-    # Each test case will get its own
-    endpoints = [EndpointResource(**test_case) for test_case in test_cases]
-    for endpoint in endpoints:
-        # Config test cases define a mapping between a necessary
-        # Name field on test cases and the route the test on the external API
-        # As such, you must give test case unique names in order to get a usable
-        # Hallmonitor API.
-        api.add_resource(endpoint, endpoint.name)
+    test_cases = config.get('test_cases')
 
-# Add Global Aggregator to get stats on all test_cases
-api.add_resource(GlobalAggregator, '/global')
+    if test_cases:
+        # Create endpoints that mirror the test_cases in config.yaml
+        # Each test case will get its own
+        endpoints = [EndpointResource(**test_case) for test_case in test_cases]
+        for endpoint in endpoints:
+            # Config test cases define a mapping between a necessary
+            # Name field on test cases and the route the test on the external API
+            # As such, you must give test case unique names in order to get a usable
+            # Hallmonitor API.
+            api.add_resource(endpoint, endpoint.name)
 
-hallmonitor.main(config=config, cli=False, monitor=True)
+    # Add Global Aggregator to get stats on all test_cases
+    api.add_resource(GlobalAggregator, '/global')
+
+    hallmonitor.main(config=config, cli=False, monitor=True)
+    return app
 
 if __name__ == "__main__":
+    app = create_app()
     app.run(port=5001)

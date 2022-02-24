@@ -1,9 +1,13 @@
 test_cases:
 - description: Test Helloworld
   base: http://localhost:5000
+  name: helloworld_always_works
   route: /
+  method: GET
   json: false
-- description: Test Helloworld
+- description: Test sometimes-works
+  name: helloworld_sometimes_works
   base: http://localhost:5000
   route: /sometimes/works
+  method: GET
   json: false
